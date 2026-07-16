@@ -57,18 +57,18 @@
 
 <script type="module">
 
+// Import Firebase core
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
+// Import Firebase Authentication functions
 import {
-
 getAuth,
 signOut,
 onAuthStateChanged
-
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
+// Import Firestore functions for CRUD operations
 import {
-
 getFirestore,
 collection,
 addDoc,
@@ -78,9 +78,9 @@ where,
 deleteDoc,
 doc,
 updateDoc
-
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+// Firebase project configuration
 const firebaseConfig = {
 
 apiKey: "AIzaSyAAgxZm7GsIbkALcjm3jzZrt456jEV1Grk",
@@ -92,20 +92,20 @@ appId: "1:36284618080:web:ad01cff66b69157416fa05"
 
 };
 
+// Initialize Firebase services
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
+// Stores the authenticated user
 let currentUser;
 
+// Checks whether a user is signed in before loading the dashboard
 onAuthStateChanged(auth, (user) => {
 
     if (!user) {
 
         window.location = "/";
-
         return;
 
     }
@@ -118,6 +118,7 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
+// Signs out the current user and returns to the login page
 window.logout = async function(){
 
     await signOut(auth);
@@ -126,6 +127,7 @@ window.logout = async function(){
 
 }
 
+// Creates a new task or updates an existing task
 window.addTask = async function(){
 
     const title = document.getElementById("title").value.trim();
@@ -173,6 +175,7 @@ window.addTask = async function(){
 
 }
 
+// Retrieves all tasks that belong to the authenticated user
 async function loadTasks(){
 
     const list=document.getElementById("tasks");
@@ -188,9 +191,9 @@ async function loadTasks(){
 
     snapshot.forEach(task => {
 
-    const data = task.data();
+        const data = task.data();
 
-    list.innerHTML += `
+        list.innerHTML += `
 
         <div class="card mb-3">
 
@@ -240,6 +243,7 @@ async function loadTasks(){
 
 }
 
+// Deletes the selected task from Firestore
 window.deleteTask = async function(id){
 
     if(!confirm("Are you sure you want to delete this task?")){
@@ -251,6 +255,8 @@ window.deleteTask = async function(id){
     loadTasks();
 
 }
+
+// Loads the selected task into the form for editing
 window.editTask = function(id){
 
     const title = document.getElementById(`title-${id}`).innerText;
@@ -270,6 +276,7 @@ window.editTask = function(id){
 
 }
 
+// Updates the selected task in Firestore
 window.updateTask = async function(id){
 
     await updateDoc(doc(db,"tasks",id),{
@@ -285,5 +292,4 @@ window.updateTask = async function(id){
 }
 
 </script>
-
 {% endblock %}
