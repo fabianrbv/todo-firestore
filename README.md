@@ -8,7 +8,7 @@ To use the application, users first create an account or sign in with an existin
 
 The purpose of writing this software was to gain hands-on experience with cloud databases, user authentication, and the integration of frontend and backend technologies commonly used in modern web development.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/ocmFCaUkTts)
 
 # Cloud Database
 
